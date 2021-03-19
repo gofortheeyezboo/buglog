@@ -1,8 +1,10 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-const Value = new Schema(
+const Bug = new Schema(
   {
+    closed: { type: Boolean, required: true },
+    closedDate: { type: Date },
     title: { type: String, required: true },
     description: { type: String, required: true },
     creatorId: { type: String, ref: 'Account', required: true }
@@ -10,11 +12,11 @@ const Value = new Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
-Value.virtual('creator', {
+Bug.virtual('creator', {
   localField: 'creatorId',
   ref: 'Account',
   foreignField: '_id',
   justOne: true
 })
 
-export default Value
+export default Bug

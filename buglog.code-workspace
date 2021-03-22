@@ -2,9 +2,11 @@
 {
   "folders": [
     {
+      "name": "buglog.client",
       "path": "buglog.client"
     },
     {
+      "name": "buglog.server",
       "path": "buglog.server"
     }
   ],

@@ -4,8 +4,9 @@
       <p class="text-color">
         {{ note.body }} <span class="float-right cursor-pointer" @click="deleteNote"><i class="fa fa-trash text-light" aria-hidden="true"></i></span>
       </p>
-    </div>
-    <div class="z-2">
+      <p>
+        Author: {{ }}
+      </p>
     </div>
   </div>
 </template>
@@ -35,11 +36,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.z-2 {
-  z-index: 2;
-}
+
 .bg-darkgrey{
-  background-color: darkgray;
+  background-color: rgb(19, 9, 48);
 }
 .text-color{
   color:ghostwhite !important

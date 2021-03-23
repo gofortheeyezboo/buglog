@@ -22,8 +22,9 @@ class BugService {
 
   async createBug(rawBug) {
     try {
-      await api.post('api/bugs', rawBug)
+      const bug = await api.post('api/bugs', rawBug)
       this.getBugs()
+      return bug.data
     } catch (error) {
       console.error(error)
     }
@@ -32,6 +33,14 @@ class BugService {
   async delete(id) {
     try {
       await api.delete('api/bugs/' + id)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async editBug(id, editedBug) {
+    try {
+      await api.put('api/bugs/' + id, editedBug)
     } catch (error) {
       console.error(error)
     }

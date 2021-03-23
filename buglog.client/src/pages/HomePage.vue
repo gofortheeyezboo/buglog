@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container my-1">
     <div class="row text-center">
       <div class="col" v-if="state.user.isAuthenticated">
         <form class="form-inline" @submit.prevent="createBug">
@@ -23,7 +23,7 @@
               v-model="state.newBug.description"
             />
           </div>
-          <button class="btn btn-primary" type="submit">
+          <button class="btn btn-success" type="submit">
             Report New Bug
           </button>
         </form>
@@ -42,11 +42,13 @@
 <script>
 import { AppState } from '../AppState'
 import { reactive, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { bugService } from '../services/BugService'
 import { onMounted } from '@vue/runtime-core'
 export default {
   name: 'Home',
   setup() {
+    const router = useRouter()
     const state = reactive({
       bugs: computed(() => AppState.bugs),
       user: computed(() => AppState.user),
@@ -57,9 +59,14 @@ export default {
     })
     return {
       state,
-      createBug() {
-        bugService.createBug(state.newBug)
+      router,
+      async createBug() {
+        const bug = await bugService.createBug(state.newBug)
         state.newBug = {}
+        router.push({ name: 'BugDetails', params: { id: bug.id } })
+      },
+      sortByStatus() {
+        bugService.sortByStatus(state.notes)
       }
     }
   }
@@ -74,5 +81,6 @@ export default {
     height: 200px;
     width: 200px;
   }
+
 }
 </style>

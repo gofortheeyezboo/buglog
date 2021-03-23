@@ -1,8 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-darkgrey">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <i class="fa fa-bug text-light" aria-hidden="true"></i>
       </div>
     </router-link>
     <button
@@ -20,10 +19,17 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link :to="{ name: 'Home' }" class="nav-link">
-            Home
+            <p class="text-success">
+              Home
+            </p>
           </router-link>
         </li>
       </ul>
+      <h1 class="mx-auto">
+        <span>
+          <i class="fa fa-bug text-success" aria-hidden="true"></i><span class="text-light">  Log</span>
+        </span>
+      </h1>
       <span class="navbar-text">
         <button
           class="btn btn-outline-primary text-uppercase"
@@ -42,7 +48,7 @@
               :src="user.picture"
               alt="user photo"
               height="40"
-              class="rounded"
+              class="rounded mx-5"
             />
             <span class="mx-3">{{ user.name }}</span>
           </div>
@@ -109,5 +115,8 @@ a:hover {
 }
 .nav-item .nav-link.router-link-exact-active{
   color: var(--primary);
+}
+.bg-darkgrey{
+  background-color: rgb(19, 9, 48);
 }
 </style>

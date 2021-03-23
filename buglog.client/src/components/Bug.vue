@@ -1,5 +1,5 @@
 <template>
-  <div class="col-4 card mt-1 bg-darkgrey">
+  <div class="col-3 card m-1 mx-1 bg-darkgrey">
     <router-link :to="{name: 'BugDetails', params: { id: bug.id } }">
       <div class="card-body">
         <h4 class="card-title text-color">
@@ -14,6 +14,9 @@
         </p>
         <p :class="{'text-danger': bug.closed == true, 'text-success' : bug.closed == false} ">
           Closed: {{ bug.closed }}
+        </p>
+        <p class="text-color">
+          Last Modified: {{ Date(bug.updatedAt) }}
         </p>
       </div>
     </router-link>
@@ -47,7 +50,7 @@ export default {
   z-index: 2;
 }
 .bg-darkgrey{
-  background-color: darkgray;
+  background-color: rgb(19, 9, 48);
 }
 .text-color{
   color:ghostwhite !important

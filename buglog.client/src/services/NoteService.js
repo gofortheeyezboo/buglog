@@ -29,5 +29,11 @@ class NoteService {
       console.error(error)
     }
   }
+
+  sortByStatus(notes) {
+    AppState.notes.sort(function(a, b) {
+      return (a.closed === true && b.closed === false ? 1 : -1)
+    })
+  }
 }
 export const noteService = new NoteService()

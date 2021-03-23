@@ -7,7 +7,6 @@
   </main>
   <footer>
     <div class="bg-darkgrey text-light text-center p-4">
-      Made with frustration by Zdiv>
     </div>
   </footer>
 </template>

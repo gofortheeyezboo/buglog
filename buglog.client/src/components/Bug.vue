@@ -13,7 +13,7 @@
           {{ bug.description }}
         </p>
         <p :class="{'text-danger': bug.closed == true, 'text-success' : bug.closed == false} ">
-          Closed: {{ bug.closed }}
+          Status: {{ bug.closed ? 'Closed' : 'Open' }}
         </p>
         <p class="text-color">
           Last Modified: {{ Date(bug.updatedAt) }}

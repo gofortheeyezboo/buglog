@@ -2,17 +2,19 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="border border-dark my-1 mx-1 p-1 ">
+        <div class="shadow p-3 mb-5 bg-white rounded mt-4 mx-1 p-1 ">
           <img :src="state.bug.creator ? state.bug.creator.picture : 'https://st4.depositphotos.com/4329009/19956/v/600/depositphotos_199564354-stock-illustration-creative-vector-illustration-default-avatar.jpg'" alt="">
-          <h4 v-if="state.bug">
-            {{ state.bug.title }}
-          </h4>
           <p>
             Author: {{ state.bug.creator ? state.bug.creator.name : 'NoAuthor' }}
           </p>
-          <p>Closed: {{ state.bug.closed }}</p>
+          <h4 class="mb-3" v-if="state.bug">
+            {{ state.bug.title }}
+          </h4>
+          <p :class="{'text-danger': state.bug.closed == true, 'text-success' : state.bug.closed == false} ">
+            Closed: {{ state.bug.closed }}
+          </p>
           <p>
-            {{ state.bug.description }} <span><button class="btn btn-success" @click="closeBug">Close Bug</button></span>
+            {{ state.bug.description }} <span class="float-right" v-if="!state.bug.closed"><button class="btn btn-success" @click="closeBug">Close Bug</button></span>
           </p>
           <div v-if="state.bug.creator">
             <form class="form-inline" v-if="state.bug.creator.email == state.user.email" @submit.prevent="editBug">
@@ -21,7 +23,7 @@
                   type="text"
                   name="title"
                   id="title"
-                  class="form-control"
+                  class="form-control mx-1"
                   placeholder="Title"
                   aria-describedby="helpId"
                   v-model="state.bug.title"
@@ -30,13 +32,13 @@
                   type="text"
                   name="description"
                   id="description"
-                  class="form-control"
+                  class="form-control mx-1"
                   placeholder="Description"
                   aria-describedby="helpId"
                   v-model="state.bug.description"
                 />
               </div>
-              <button class="btn btn-success" type="submit">
+              <button class="btn btn-success" type="submit" v-if="!state.bug.closed">
                 Save Changes to Bug
               </button>
             </form>
@@ -47,7 +49,7 @@
             type="text"
             name="body"
             id="title"
-            class="form-control"
+            class="form-control mx-1"
             placeholder="Note Body..."
             aria-describedby="helpId"
             v-model="state.newNote.body"
@@ -92,10 +94,8 @@ export default {
       await noteService.getNotes(route.params.id)
     })
     onBeforeRouteLeave((to, from, next) => {
-      if (window.confirm('You sure bro?')) {
-        AppState.activeCar = {}
-        next()
-      }
+      AppState.activeCar = {}
+      next()
     })
     return {
       state,
@@ -105,8 +105,10 @@ export default {
         state.newNote = {}
       },
       closeBug() {
-        bugService.delete(state.bug.id)
-        router.push({ name: 'Home' })
+        if (window.confirm('You Really Want To Close This Bug?')) {
+          bugService.delete(state.bug.id)
+          router.push({ name: 'Home' })
+        }
       },
       editBug() {
         bugService.editBug(state.bug.id, state.bug)

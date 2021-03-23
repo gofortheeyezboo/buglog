@@ -2,7 +2,7 @@
   <div class="container my-1">
     <div class="row text-center">
       <div class="col" v-if="state.user.isAuthenticated">
-        <form class="form-inline" @submit.prevent="createBug">
+        <form class="form-inline mb-2" @submit.prevent="createBug">
           <div class="form-group">
             <input
               type="text"
@@ -27,6 +27,18 @@
             Report New Bug
           </button>
         </form>
+        <span class="cursor-pointer float-left mx-2" @click="sortByStatus">
+          <i class="fa fa-chevron-down float-left" aria-hidden="true"></i> Sort By Status
+        </span>
+        <span class="cursor-pointer float-left mx-2" @click="filterBugsByClosed">
+          <i class="fa fa-chevron-down float-left" aria-hidden="true"></i> Filter By Closed
+        </span>
+        <span class="cursor-pointer float-left mx-2" @click="filterBugsByOpen">
+          <i class="fa fa-chevron-down float-left" aria-hidden="true"></i> Filter By Open
+        </span>
+        <span class="cursor-pointer float-left mx-2" @click="removeFilters">
+          <i class="fa fa-chevron-down float-left" aria-hidden="true"></i> Remove Filters
+        </span>
       </div>
     </div>
     <div class="row">
@@ -52,6 +64,11 @@ export default {
     const state = reactive({
       bugs: computed(() => AppState.bugs),
       user: computed(() => AppState.user),
+      sortedBugs: computed(() => AppState.bugs.sort(function(a, b) {
+        return a.closed - b.closed
+      })),
+      filteredBugsByClosed: computed(() => AppState.bugs.filter(b => b.closed)),
+      filteredBugsByOpen: computed(() => AppState.bugs.filter(b => !b.closed)),
       newBug: {}
     })
     onMounted(() => {
@@ -66,7 +83,18 @@ export default {
         router.push({ name: 'BugDetails', params: { id: bug.id } })
       },
       sortByStatus() {
-        bugService.sortByStatus(state.notes)
+        AppState.bugs = state.sortedBugs
+      },
+      async filterBugsByClosed() {
+        await bugService.getBugs()
+        AppState.bugs = state.filteredBugsByClosed
+      },
+      async filterBugsByOpen() {
+        await bugService.getBugs()
+        AppState.bugs = state.filteredBugsByOpen
+      },
+      async removeFilters() {
+        await bugService.getBugs()
       }
     }
   }
@@ -82,5 +110,8 @@ export default {
     width: 200px;
   }
 
+}
+.cursor-pointer{
+    cursor: pointer
 }
 </style>

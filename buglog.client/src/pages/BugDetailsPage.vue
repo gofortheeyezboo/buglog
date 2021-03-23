@@ -14,7 +14,7 @@
             Closed: {{ state.bug.closed }}
           </p>
           <p>
-            {{ state.bug.description }} <span class="float-right" v-if="!state.bug.closed"><button class="btn btn-success" @click="closeBug">Close Bug</button></span>
+            {{ state.bug.description }} <span class="float-right" v-if="!state.bug.closed && state.bug.creatorId == state.account.id"><button class="btn btn-success" @click="closeBug">Close Bug</button></span>
           </p>
           <div v-if="state.bug.creator">
             <form class="form-inline" v-if="state.bug.creator.email == state.user.email" @submit.prevent="editBug">
@@ -87,6 +87,7 @@ export default {
       bug: computed(() => AppState.activeBug),
       user: computed(() => AppState.user),
       notes: computed(() => AppState.notes),
+      account: computed(() => AppState.account),
       newNote: {}
     })
     onMounted(async() => {

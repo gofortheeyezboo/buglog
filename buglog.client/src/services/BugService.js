@@ -22,9 +22,9 @@ class BugService {
 
   async createBug(rawBug) {
     try {
-      const bug = await api.post('api/bugs', rawBug)
+      const res = await api.post('api/bugs', rawBug)
       this.getBugs()
-      return bug
+      return res.data
     } catch (error) {
       alert(error)
     }
@@ -33,6 +33,7 @@ class BugService {
   async delete(id) {
     try {
       await api.delete('api/bugs/' + id)
+      this.getBugs()
     } catch (error) {
       alert(error)
     }

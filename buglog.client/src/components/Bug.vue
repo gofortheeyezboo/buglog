@@ -16,7 +16,7 @@
           Status: {{ bug.closed ? 'Closed' : 'Open' }}
         </p>
         <p class="text-color">
-          Last Modified: {{ Date(bug.updatedAt) }}
+          Last Modified: {{ new Date(bug.updatedAt).toDateString() }}
         </p>
       </div>
     </router-link>
